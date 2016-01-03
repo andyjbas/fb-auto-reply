@@ -1,0 +1,23 @@
+{
+  "apps" : [
+    {
+      "name": "fb-auto-reply",
+      "script": "./index.js",
+      "cron_restart": "* * * * *",
+      "env_production": {
+        "NODE_ENV": "production"
+      }
+    }
+  ],
+
+  "deploy" : {
+    "production" : {
+      "user": "fb-auto-reply",
+      "host": "1.1.1.1",
+      "ref": "origin/master",
+      "repo": "git@github.com:andyjbas/fb-auto-reply.git",
+      "path": "/path/to/app",
+      "post-deploy": "npm install ; pm2 startOrRestart app.json --env production"
+    }
+  }
+}
