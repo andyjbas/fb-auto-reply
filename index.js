@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 dotenv.load();
 
 const Promise = require('bluebird');
-const fbLogin = Promise.promisify(require("facebook-chat-api"));
+const fbLogin = Promise.promisify(require('facebook-chat-api'));
 const bunyan = require('bunyan');
 const SlackStream = require('bunyan-slack');
 
@@ -15,7 +15,7 @@ function appError(err) {
 function slackFormatter(record, level) {
   function formatMsg(m) {
     let timestamp = new Date(m.timestamp).toTimeString();
-    return `${timestamp} _${m.senderName}:_ ${m.body}`
+    return `${timestamp} _${m.senderName}:_ ${m.body}`;
   }
 
   function formatUnreadMsgs(unreadCount, msgs) {
@@ -90,11 +90,11 @@ const threadLogger = appLogger.child({
 const fbCreds = {
   email: process.env.FB_USER,
   password: process.env.FB_PASS
-}
+};
 
 const fbOpts = {
   logLevel: 'silent'
-}
+};
 
 appLogger.info('Attempting facebook login...');
 fbLogin(fbCreds, fbOpts).then(function(api) {
@@ -103,7 +103,7 @@ fbLogin(fbCreds, fbOpts).then(function(api) {
   Promise.promisifyAll(api);
 
   function fetchUnreadMessages(thread) {
-    const stopIndex = thread.unreadCount // adds two extra msgs for context
+    const stopIndex = thread.unreadCount; // adds two extra msgs for context
     return api.getThreadHistoryAsync(thread.threadID,
                                      0, stopIndex,
                                      thread.timestamp);
